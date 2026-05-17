@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Priya Roy | Portfolio & Premium Inventory OS</title>
+    <style>
+        :root {
+            --bg-primary: #070a13;
+            --bg-surface: #111827;
+            --accent: #3b82f6;
+            --accent-success: #10b981;
+            --accent-warning: #f59e0b;
+            --accent-danger: #ef4444;
+            --admin-purple: #8b5cf6;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --spring-transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --fluid-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* --- NAV ARCHITECTURE --- */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(17, 24, 39, 0.75);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(31, 41, 55, 0.7);
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 2rem;
+        }
+
+        .nav-logo {
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            cursor: pointer;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: var(--fluid-transition);
+            padding: 0.6rem 1.2rem;
+            border-radius: 10px;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #fff;
+            background: rgba(59, 130, 246, 0.15);
+            box-shadow: inset 0 0 12px rgba(59, 130, 246, 0.1);
+        }
+
+        /* --- SECTIONS --- */
+        section {
+            padding-top: 120px;
+            padding-bottom: 4rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 2.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        /* --- PROFILE BLOCK --- */
+        .profile-card {
+            background: var(--bg-surface);
+            border: 1px solid rgba(31, 41, 55, 0.8);
+            border-radius: 28px;
+            padding: 4rem;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 4rem;
+            align-items: center;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+            animation: entryPulse 0.8s var(--spring-transition);
+        }
+
+        .profile-avatar {
+            width: 240px;
+            height: 240px;
+            background: linear-gradient(135deg, var(--accent), var(--admin-purple));
+            border-radius: 50%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5.5rem;
+            font-weight: 800;
+            color: #fff;
+            box-shadow: 0 0 40px rgba(139, 92, 246, 0.25);
+            transition: var(--spring-transition);
+        }
+
+        .profile-card:hover .profile-avatar {
+            transform: scale(1.04) rotate(4deg);
+            box-shadow: 0 0 50px rgba(139, 92, 246, 0.4);
+        }
+
+        .profile-info h2 { font-size: 2.8rem; font-weight: 800; letter-spacing: -1px; }
+        .profile-meta { color: var(--accent); font-weight: 600; margin-bottom: 1.5rem; font-size: 1.15rem; }
+
+        .student-details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .detail-item {
+            background: #090d18;
+            padding: 1.2rem;
+            border-radius: 16px;
+            border: 1px solid rgba(31, 41, 55, 0.6);
+            transition: var(--fluid-transition);
+        }
+        .detail-item:hover { border-color: rgba(255,255,255,0.1); }
+        .detail-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.4rem; }
+        .detail-value { font-weight: 600; font-size: 1.05rem; }
+
+        /* --- METRICS FRAMEWORK --- */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .card {
+            background: var(--bg-surface);
+            padding: 1.75rem;
+            border-radius: 20px;
+            border: 1px solid rgba(31, 41, 55, 0.8);
+            position: relative;
+            overflow: hidden;
+            transition: var(--spring-transition);
+        }
+        .card:hover {
+            transform: translateY(-6px) scale(1.02);
+            border-color: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 20px 30px rgba(0,0,0,0.4);
+        }
+        .card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--accent); }
+        .card.danger::before { background: var(--accent-danger); }
+        .card.success::before { background: var(--accent-success); }
+        .card-title { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; }
+        .card-value { font-size: 2rem; font-weight: 800; margin-top: 0.6rem; transition: var(--fluid-transition); }
+
+        /* --- WORKSPACE CORE --- */
+        .workspace {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 1024px) {
+            .workspace { grid-template-columns: 1fr; }
+            .profile-card { grid-template-columns: 1fr; text-align: center; padding: 2.5rem; }
+        }
+
+        .panel {
+            background: var(--bg-surface);
+            padding: 2rem;
+            border-radius: 22px;
+            border: 1px solid rgba(31, 41, 55, 0.8);
+            margin-bottom: 1.5rem;
+        }
+
+        .panel h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 1.5rem; }
+
+        /* --- BUTTONS & INPUT SYSTEM --- */
+        .form-group { margin-bottom: 1.5rem; }
+        label { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.6rem; font-weight: 500; }
+        input, select {
+            width: 100%;
+            background: #090d18;
+            border: 1px solid rgba(31, 41, 55, 0.9);
+            color: var(--text-main);
+            padding: 0.9rem 1.2rem;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            transition: var(--fluid-transition);
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+        }
+
+        button {
+            width: 100%;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            padding: 0.9rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: var(--spring-transition);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+        }
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+            opacity: 0.95;
+        }
+        button:active { transform: translateY(-1px) scale(0.98); }
+
+        /* --- DYNAMIC TABLES & MUTATIONS --- */
+        .table-container { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th, td { padding: 1.1rem; border-bottom: 1px solid rgba(31, 41, 55, 0.6); }
+        th { font-size: 0.85rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700; }
+        
+        tbody tr { transition: var(--fluid-transition); }
+        tbody tr:hover { background: rgba(255, 255, 255, 0.02); }
+
+        /* Mutation Target Animation */
+        @keyframes itemAddition {
+            from { opacity: 0; transform: translateX(-15px) scale(0.97); background: rgba(16, 185, 129, 0.15); }
+            to { opacity: 1; transform: translateX(0) scale(1); background: transparent; }
+        }
+        .new-row-node { animation: itemAddition 0.5s var(--spring-transition) forwards; }
+
+        .badge { padding: 0.35rem 0.75rem; border-radius: 8px; font-size: 0.75rem; font-weight: 700; display: inline-block; }
+        .badge.in-stock { background: rgba(16, 185, 129, 0.1); color: var(--accent-success); border: 1px solid rgba(16, 185, 129, 0.2); }
+        .badge.low { background: rgba(245, 158, 11, 0.1); color: var(--accent-warning); border: 1px solid rgba(245, 158, 11, 0.2); }
+        .badge.out { background: rgba(239, 68, 66, 0.1); color: var(--accent-danger); border: 1px solid rgba(239, 68, 66, 0.2); }
+
+        .action-btn {
+            background: transparent;
+            color: var(--accent-danger);
+            border: 1px solid rgba(239, 68, 66, 0.2);
+            padding: 0.45rem 0.9rem;
+            font-size: 0.8rem;
+            width: auto;
+            border-radius: 8px;
+            box-shadow: none;
+        }
+        .action-btn:hover { background: rgba(239, 68, 66, 0.1); border-color: var(--accent-danger); transform: translateY(-1px); }
+
+        .ai-pulse { background: linear-gradient(135deg, #131235 0%, #111827 100%); border: 1px solid rgba(49, 46, 129, 0.8); }
+        .ai-suggestion { background: rgba(255,255,255,0.02); border-left: 3px solid var(--accent); padding: 1rem; margin-top: 1rem; border-radius: 0 10px 10px 0; font-size: 0.88rem; line-height: 1.5; }
+
+        @keyframes entryPulse {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <div class="nav-logo" onclick="window.scrollTo(0,0)">Priya Roy <span style="color:var(--accent);">OS</span></div>
+            <div class="nav-links">
+                <a href="#student-section" id="lnr-student" class="active" onclick="navigateSmoothly(event, 'student-section')">Student Profile</a>
+                <a href="#project-section" id="lnr-project" onclick="navigateSmoothly(event, 'project-section')">Inventory Tracker</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <section id="student-section">
+            <h1 class="section-title">Project Developer</h1>
+            <div class="profile-card">
+                <div class="profile-avatar">PR</div>
+                <div class="profile-info">
+                    <h2>Priya Roy</h2>
+                    <div class="profile-meta">System Architect & Developer</div>
+                    <p style="color: var(--text-muted); line-height: 1.6; font-size: 1.05rem;">
+                        This interface provides a clean abstraction framework for tracking high-velocity commercial stock movements, integrating explicit mathematical calculation modules and asset visualization frameworks.
+                    </p>
+                    
+                    <div class="student-details-grid">
+                        <div class="detail-item">
+                            <div class="detail-label">Project Domain</div>
+                            <div class="detail-value">Enterprise Inventory OS</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Course Structure</div>
+                            <div class="detail-value">BCA Application Architecture</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Status Verification</div>
+                            <div class="detail-value">Academic Submission 2026</div>
+                        </div>
+                    </div>
+                    <button onclick="document.getElementById('project-section').scrollIntoView();" style="margin-top: 2.5rem; width: auto; padding: 0.9rem 2.2rem;">Launch Tracker Engine →</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="project-section">
+            <h1 class="section-title">Ecosystem Control Center</h1>
+            
+            <div class="dashboard-grid">
+                <div class="card">
+                    <div class="card-title">Ecosystem Valuation</div>
+                    <div class="card-value" id="total-valuation">₹0.00</div>
+                </div>
+                <div class="card success">
+                    <div class="card-title">Monitored Items (SKU)</div>
+                    <div class="card-value" id="active-skus">0</div>
+                </div>
+                <div class="card danger">
+                    <div class="card-title">Deficit Alerts</div>
+                    <div class="card-value" id="low-stock-count">0</div>
+                </div>
+                <div class="card ai-pulse">
+                    <div class="card-title" style="color: #a5b4fc;">Velocity Prediction Engine</div>
+                    <div class="card-value" style="font-size: 1.15rem; margin-top: 0.6rem; color: #e0e7ff;" id="ai-prediction">Calibrating framework...</div>
+                </div>
+            </div>
+
+            <div class="workspace">
+                <div class="panel">
+                    <h3 style="border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 1rem;">Structural Core Ledger</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Product Identity</th>
+                                    <th>Category Group</th>
+                                    <th>Stock Unit Counter</th>
+                                    <th>Unit Cost</th>
+                                    <th>Status Flag</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inventory-tbody">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="panel">
+                        <h3>Stock Injection Interface</h3>
+                        <form id="stock-form" onsubmit="event.preventDefault(); handleAddStock();">
+                            <div class="form-group">
+                                <label>Product Identity Label</label>
+                                <input type="text" id="prod-name" placeholder="e.g., Enterprise Server Module" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Category Structural Group</label>
+                                <select id="prod-cat">
+                                    <option value="Electronics">Electronics</option>
+                                    <option value="Apparel">Apparel</option>
+                                    <option value="Accessories">Accessories</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Allocation Units</label>
+                                <input type="number" id="prod-qty" min="0" placeholder="0" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Unit Price Valuation (INR)</label>
+                                <input type="number" id="prod-price" min="0" step="0.01" placeholder="0.00" required>
+                            </div>
+                            <button type="submit">Execute Insertion Protocol</button>
+                        </form>
+                    </div>
+
+                    <div class="panel" style="border-color: rgba(139, 92, 246, 0.3);">
+                        <h3>Cognitive Strategy Monitor</h3>
+                        <div id="psychology-insights"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        // Memory Array State Storage
+        let inventory = [
+            { id: 1, name: "Alpha Premium Box", category: "Electronics", qty: 45, price: 1200 },
+            { id: 2, name: "Smart Sync Cable", category: "Electronics", qty: 4, price: 450 }
+        ];
+
+        // Explicit Link Click Function Setup
+        function navigateSmoothly(event, targetId) {
+            event.preventDefault();
+            const targetElement = document.getElementById(targetId);
+            if(targetElement) {
+                targetElement.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Tracking Interface Active States on Scroll Frame
+        window.addEventListener('scroll', () => {
+            const projectSec = document.getElementById('project-section');
+            const navStudent = document.getElementById('lnr-student');
+            const navProject = document.getElementById('lnr-project');
+
+            if (window.scrollY >= projectSec.offsetTop - 150) {
+                navProject.classList.add('active');
+                navStudent.classList.remove('active');
+            } else {
+                navStudent.classList.add('active');
+                navProject.classList.remove('active');
+            }
+        });
+
+        // Dynamic Counters Dopamine Scaling Effect
+        function animateCounterValue(id, start, end, duration, prefix = '') {
+            const obj = document.getElementById(id);
+            if (!obj) return;
+            
+            // Apply bounce micro-animation on layout mutation
+            obj.style.transform = 'scale(1.1)';
+            obj.style.color = 'var(--accent-success)';
+            
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const currentVal = Math.floor(progress * (end - start) + start);
+                
+                obj.innerText = prefix + currentVal.toLocaleString('en-IN');
+                
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                } else {
+                    obj.innerText = prefix + end.toLocaleString('en-IN');
+                    obj.style.transform = 'scale(1)';
+                    obj.style.color = '';
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        // Global Render Pipeline Execution
+        let oldValuation = 0;
+        let oldSkus = 0;
+        let oldLowStock = 0;
+
+        function renderEngine(isNewEntry = false) {
+            const tbody = document.getElementById('inventory-tbody');
+            tbody.innerHTML = '';
+            let totalValuation = 0, lowStockCount = 0;
+
+            inventory.forEach((item, index) => {
+                totalValuation += (item.qty * item.price);
+                
+                let badge = '<span class="badge in-stock">Optimal Allocation</span>';
+                if(item.qty === 0) {
+                    badge = '<span class="badge out">Depleted Inventory</span>';
+                    lowStockCount++;
+                } else if(item.qty <= 10) {
+                    badge = '<span class="badge low">Low Stock Warning</span>';
+                    lowStockCount++;
+                }
+
+                const tr = document.createElement('tr');
+                // Target item animation assignment if user triggered entry mutation
+                if(isNewEntry && index === inventory.length - 1) {
+                    tr.className = 'new-row-node';
+                }
+
+                tr.innerHTML = `
+                    <td style="font-weight: 600; color:#fff;">${item.name}</td>
+                    <td style="color: var(--text-muted); font-size: 0.9rem;">${item.category}</td>
+                    <td style="font-weight: 600;">${item.qty} units</td>
+                    <td>₹${item.price.toFixed(2)}</td>
+                    <td>${badge}</td>
+                    <td><button class="action-btn" onclick="purgeItem(${item.id})">Purge</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            // Triggering Smooth Numerical Feedback
+            animateCounterValue('total-valuation', oldValuation, totalValuation, 400, '₹');
+            animateCounterValue('active-skus', oldSkus, inventory.length, 300);
+            animateCounterValue('low-stock-count', oldLowStock, lowStockCount, 300);
+
+            // Synchronizing Past States
+            oldValuation = totalValuation;
+            oldSkus = inventory.length;
+            oldLowStock = lowStockCount;
+
+            runAIPredictiveEngine(lowStockCount);
+        }
+
+        // Mutation Injections
+        function handleAddStock() {
+            const name = document.getElementById('prod-name').value;
+            const category = document.getElementById('prod-cat').value;
+            const qty = parseInt(document.getElementById('prod-qty').value);
+            const price = parseFloat(document.getElementById('prod-price').value);
+
+            inventory.push({ id: Date.now(), name, category, qty, price });
+            document.getElementById('stock-form').reset();
+            
+            // Execute view refresh with transition flag active
+            renderEngine(true);
+        }
+
+        function purgeItem(id) {
+            inventory = inventory.filter(item => item.id !== id);
+            renderEngine(false);
+        }
+
+        // AI Behavioral Analytics Subsystem
+        function runAIPredictiveEngine(lowStock) {
+            const aiField = document.getElementById('ai-prediction');
+            const psychField = document.getElementById('psychology-insights');
+            
+            if(lowStock > 0) {
+                aiField.innerText = "High Risk Constraints Detected"; 
+                aiField.style.color = "var(--accent-danger)";
+                psychField.innerHTML = `
+                    <div class="ai-suggestion" style="border-left-color: var(--accent-danger); background: rgba(239, 68, 66, 0.01);">
+                        <strong>Scarcity Engine Alert:</strong> Deficit signals triggered. Consumer conversion limits optimize on product visibility under perceived inventory shortages.
+                    </div>`;
+            } else {
+                aiField.innerText = "Structural Velocity Stable"; 
+                aiField.style.color = "var(--accent-success)";
+                psychField.innerHTML = `
+                    <div class="ai-suggestion" style="border-left-color: var(--accent-success);">
+                        <strong>Capital Density Metric:</strong> Asset-to-liquidity turnover profiles run smoothly across the current configuration bounds.
+                    </div>`;
+            }
+        }
+
+        // Launch Matrix
+        renderEngine();
+    </script>
+</body>
+</html>
